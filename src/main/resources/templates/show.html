@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <!-- Standard Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Site Properties -->
+    <title>风格周边</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/semantic-ui@2.4.2/dist/semantic.css">
+    <link href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/demo.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<!--导航部分-->
+<header>
+    <div class="top"></div><!--填充导航logo上面的部分-->
+    <nav class="navbar navbar-default" >
+        <div class="container-fluid">
+            <div class="container">
+                <div class="navbar-header">
+                    <div class="thumbnail" style="height: 160px;width: 160px">
+                        <a href="index.html"><img src="img/preview.gif" ></a>
+                    </div>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+                        <span class="sr-only">汉堡按钮</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <span class="menu"></span>
+                <!-- 导航链接、表单和其他内容切换 -->
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index" ><span>主页</span></a></li>
+                        <li><a href="know"><span>理论基础</span></a></li>
+                        <li><a href="show" class="active_nav" ><span>风格周边</span></a></li>
+                        <li><a href="getAllFile"><span>风格化集锦</span></a></li>
+                        <!--<li><a href="photo.html"><span>个人中心</span></a></li>-->
+                    </ul>
+
+                    <div class="navbar-right">
+                        <p href="#" class="information"><br>
+                            <!--<p style="font-size: 20px;color: black">姓名：齐&nbsp;&nbsp;晋</p>-->
+                            <!--<p style="font-size: 20px;color: black">学号：2018444246 &nbsp;专业：计科2018</p>-->
+                        <p style="font-size: 20px;color: black">基于深度学习的图像风格迁移系统</p>
+                        <p id="roleName" style="font-size: 20px;color: green"></p><br>
+                        <a style="font-size: 20px;color: red;float: right"><p>退出登录</p></a>
+                        </p>
+                    </div>
+                </div>
+                <!-- script for menu -->
+                <script>
+                    $( "span.menu" ).click(function() {
+                        $( ".top-menu" ).slideToggle( "slow", function() {
+                            // Animation complete.
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </nav>
+</header>
+<!--导航部分结束-->
+    <!--轮播图部分-->
+    <div class="container hidden-xs " >
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+            <!-- 轮播（Carousel）指标 -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+            </ol>
+            <!-- 轮播（Carousel）项目 -->
+            <div class="carousel-inner ">
+                <div class="item active">
+                    <div class="pic">
+                        <img src="img/pic01.jpg"  alt="">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="img/tow.jpg"  alt="">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="img/pic09.jpg"  alt="">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="pic">
+                        <img src="img/pic08.jpg"  alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--轮播部分结束-->
+<div class="ui grid container">
+    <div class="row">
+        <div class="column">
+            <br>
+            <h1 class="ui header">风格周边</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <div class="ui message">
+                <h1 class="ui header">Hello, styles!</h1>
+                <h3>您可以在此页面查询您想要转换的风格图片进行下载，从而获取喜欢的风格图像！</h3>
+                <a class="ui blue button"><h4>Start &nbsp;&nbsp; Now &raquo;</h4></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <h1 class="ui header">风格介绍与选择</h1>
+
+            <div class="ui inverted segment" id="upload1">
+                <img class="ui small thumbnail" width="800px" height="400px" src="img/Neither.jpg">
+                <div class="ui divider"></div>
+                <button class="btn btn-info" type="button" onclick="downloadIamge()">下载图片</button>
+                <div class="ui divider"></div>
+                <h4>
+                    作品名称：Netherlandish Proverbs<br>
+                    中文名称：尼德兰箴言<br>
+                    创作者：老彼得·勃鲁盖尔 Pieter Bruegel the Elder<br>
+                    创作年代：1559<br>
+                    图片尺寸：5649 × 4000 像素<br>
+                    风格：北方文艺复兴<br>
+                    体裁：寓言画<br>
+                    材质：oil,panel<br>
+                    现位于：Gemäldegalerie, Berlin, Germany<br>
+                    实际尺寸：117 x 163 cm</h4>
+            </div>
+            <div class="ui inverted segment" id="upload6">
+                <img class="ui small thumbnail"  width="800px" height="400px"  src="img/land.jpg">
+                <div class="ui divider"></div>
+                <button class="btn btn-info" type="button" onclick="downloadIamge()">下载图片</button>
+                <div class="ui divider"></div>
+                <h4>
+                    作品名称：Landscape drawing for Santa Maria della Neve<br>
+                    创作者：达·芬奇 Leonardo da Vinci<br>
+                    图片尺寸：941x650px<br>
+                    创作年代：1473<br>
+                    风格：Early Renaissance<br>
+                    体裁：风景画<br>
+                    材质：ink,paper<br>
+                    现位于：Uffizi Gallery, Florence, Italy<br>
+                    实际尺寸：19 x 28.5 cm</h4>
+            </div>
+
+            <div class="ui inverted segment" id="upload3">
+                <img class="ui small thumbnail"  width="800px" height="400px"  src="img/winter.jpg">
+                <div class="ui divider"></div>
+                <button class="btn btn-info" type="button" onclick="downloadIamge()">下载图片</button>
+                <div class="ui divider"></div>
+                <h4>
+                    作品名称：Winterlandscape with a Bird-Trap<br>
+                    创作者：Pieter Brueghel the Younger<br>
+                    创作年代：1631<br>
+                    图片尺寸：8539x5810px<br>
+                    风格：北方文艺复兴<br>
+                    体裁：风俗画<br>
+                    现位于：Bonnefantenmuseum, Maastricht, Netherlands</h4>
+            </div>
+            <div class="ui inverted segment" id="upload2">
+                <img class="ui small thumbnail"  width="800px" height="400px"  src="img/pieter.jpg">
+                <div class="ui divider"></div>
+                <button class="btn btn-info" type="button" onclick="downloadIamge()">下载图片</button>
+                <div class="ui divider"></div>
+                <h4>
+                    作品名称：The Tower of Babel<br>
+                    中文名称：巴别塔<br>
+                    创作者：老彼得·勃鲁盖尔 Pieter Bruegel the Elder<br>
+                    创作年代：1563<br>
+                    图片尺寸：30000 × 21952像素<br>
+                    风格：北方文艺复兴<br>
+                    体裁：宗教画<br>
+                    材质：oil,panel 板上油画<br>
+                    现位于：维也纳艺术史博物馆<br>
+                    实际尺寸：114 x 155 cm</h4>
+            </div>
+            <div class="ui inverted segment" id="upload5">
+                <img class="ui small "  width="800px" height="400px"  src="img/starrynight.jpg">
+                <div class="ui divider"></div>
+                <button class="btn btn-info" type="button" onclick="downloadIamge()">下载图片</button>
+                <div class="ui divider"></div>
+                <h4>作品名称：星月夜 The Starry Night <br>
+                    创作者：文森特·梵高 Vincent van Gogh<br>
+                    创作年代：1889<br>
+                    风格：后印象派<br>
+                    体裁：cloudscape<br>
+                    材质：布面油画<br>
+                    现位于：Museum of Modern Art (MoMA), New York City, NY, US</h4>
+            </div>
+            <div class="ui inverted segment" id="upload4">
+                <img class="ui small thumbnail"  width="800px" height="400px"   src="img/wave.jpg">
+                <!--<img class="ui small image" src="file/IMG_3923(20220225-215127).JPG">-->
+                <div class="ui divider"></div>
+                <button class="btn btn-info" type="button" onclick="downloadIamge()">下载图片</button>
+                <div class="ui divider"></div>
+                <h4>
+                    作品名称：神奈川冲浪 The Great Wave of Kanagawa<br>
+                    创作者：葛饰北斋<br>
+                    材质：锦绘<br>
+                    创作年代：江户时代（19世纪前期）<br>
+                    图片尺寸：25.7cm×37.9cm<br>
+                    风格：彩绘 锦绘 日本，神奈川<br>
+                </h4>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap-fileinput.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+
+    function downloadIamge() {
+        var imgs = document.getElementById("upload1").getElementsByTagName("img");
+        var a = document.createElement('a');
+        a.download = 'img' + new Date().getTime() || '下载图片名称';//这边是文件名，可以自定义
+        a.href = imgs[0].src;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    function downloadIamge() {
+        var imgs = document.getElementById("upload2").getElementsByTagName("img");
+        var a = document.createElement('a');
+        a.download = 'img' + new Date().getTime() || '下载图片名称';//这边是文件名，可以自定义
+        a.href = imgs[0].src;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    function downloadIamge() {
+        var imgs = document.getElementById("upload3").getElementsByTagName("img");
+        var a = document.createElement('a');
+        a.download = 'img' + new Date().getTime() || '下载图片名称';//这边是文件名，可以自定义
+        a.href = imgs[0].src;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    function downloadIamge() {
+        var imgs = document.getElementById("upload4").getElementsByTagName("img");
+        var a = document.createElement('a');
+        a.download = 'img' + new Date().getTime() || '下载图片名称';//这边是文件名，可以自定义
+        a.href = imgs[0].src;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    function downloadIamge() {
+        var imgs = document.getElementById("upload5").getElementsByTagName("img");
+        var a = document.createElement('a');
+        a.download = 'img' + new Date().getTime() || '下载图片名称';//这边是文件名，可以自定义
+        a.href = imgs[0].src;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    function downloadIamge() {
+        var imgs = document.getElementById("upload6").getElementsByTagName("img");
+        var a = document.createElement('a');
+        a.download = 'img' + new Date().getTime() || '下载图片名称';//这边是文件名，可以自定义
+        a.href = imgs[0].src;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+</script>
+<!--获取用户名-->
+<script type="text/javascript">
+    //当页面一加载时就向后台发送post请求
+    $(function(){
+        $.post("/user/getusername",function(obj){
+            var s = obj.replace(/\"/g, '');
+            $("#roleName").html("欢迎您: "+s+" !");
+        },"text")
+    });
+
+</script>
+    <a href="#" id="toTop" style="display: block;">
+    <span id="toTopHover" style="opacity: 1;"> </span></a>
+</body>
+
+</html>
