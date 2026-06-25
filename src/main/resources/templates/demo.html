@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>风格迁移系统</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-fileinput.css" rel="stylesheet">
+    <link href="css/demo.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/move-top.js"></script>
+</head>
+<body>
+<header>
+<h1>&nbsp;&nbsp;风格迁移系统实现</h1>
+
+<form id="uploadForm" method="post" enctype="multipart/form-data">
+    <div class="container">
+        <div class="page-header"><h1>风格迁移案例</h1></div>
+        <div class="page-header">
+            <h3>原始图片</h3>
+            <div class="form-group">
+                <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload_1">
+                    <div class="fileinput-new thumbnail" style="width:200px;height:auto;max-height:150px">
+                        <img id="image" style="width:100%;height:auto;max-height:140px" src="img/noimage.jpg">
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width:200px;max-height:150px"></div>
+                    <div>
+                        <span class="btn btn-primary btn-file">
+                            <span class="fileinput-new">选择文件</span>
+                            <span class="fileinput-exists">换一�?/span>
+                            <input type="file" name="image">
+                        </span>
+                        <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput">移除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-header">
+            <h3>风格图片</h3>
+            <div class="form-group">
+                <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload_2">
+                    <div class="fileinput-new thumbnail" style="width:200px;height:auto;max-height:150px">
+                        <img id="style" style="width:100%;height:auto;max-height:140px" src="img/noimage.jpg">
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width:200px;max-height:150px"></div>
+                    <div>
+                        <span class="btn btn-primary btn-file">
+                            <span class="fileinput-new">选择文件</span>
+                            <span class="fileinput-exists">换一�?/span>
+                            <input type="file" name="style">
+                        </span>
+                        <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput">移除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="uploadSubmit" type="button" class="btn btn-info">生成</button>
+        <div class="page-header">
+            <h3>生成的图�?/h3>
+            <div class="form-group">
+                <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload_3">
+                    <div class="fileinput-new thumbnail" style="width:200px;height:auto;max-height:150px">
+                        <img id="ai-image" style="width:100%;height:auto;max-height:140px" src="img/noimage.jpg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+    
+<a href="#" id="toTop" style="display:block;"><span id="toTopHover" style="opacity:1;"></span></a>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap-fileinput.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+$(function() {
+    $("#uploadSubmit").on("click", function() {
+        var formData = new FormData();
+        var imageFile = $("input[name='image']")[0].files[0];
+        var styleFile = $("input[name='style']")[0].files[0];
+        if (!imageFile || !styleFile) {
+            alert("请先选择原始图片和风格图�?);
+            return;
+        }
+        formData.append("image", imageFile);
+        formData.append("style", styleFile);
+        $("#uploadSubmit").prop("disabled", true).text("风格迁移中，请耐心等待...");
+        $("#ai-image").attr("src", "img/noimage.jpg");
+        $.ajax({
+            url: "/getImage",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            timeout: 600000,
+            success: function(resultPath) {
+                var filename = resultPath.trim();
+                $("#ai-image").attr("src", "/" + filename + "?t=" + new Date().getTime());
+                $("#uploadSubmit").prop("disabled", false).text("生成");
+            },
+            error: function(xhr, status, error) {
+                alert("生成失败�? + (xhr.responseText || error));
+                $("#uploadSubmit").prop("disabled", false).text("生成");
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>
