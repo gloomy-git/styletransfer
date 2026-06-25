@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>图像风格迁移</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-fileinput.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="#"/>
+    <link href="css/demo.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/move-top.js"></script>
+
+</head>
+<body>
+
+<!--导航部分-->
+<header>
+    <div class="top"></div><!--填充导航logo上面的部分-->
+    <nav class="navbar navbar-default" >
+        <div class="container-fluid">
+            <div class="container">
+                <div class="navbar-header">
+                    <div class="thumbnail" style="height: 160px;width: 160px">
+                        <a href="index.html"><img src="img/preview.gif" ></a>
+                    </div>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+                        <span class="sr-only">汉堡按钮</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <span class="menu"></span>
+                <!-- 导航链接、表单和其他内容切换 -->
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index"><span>主页</span></a></li>
+                        <li><a href="know" class="active_nav" ><span>理论基础</span></a></li>
+                        <li><a href="show"><span>风格周边</span></a></li>
+                        <li><a href="getAllFile"><span>风格化集锦</span></a></li>
+                        <!--<li><a href="photo.html"><span>个人中心</span></a></li>-->
+                    </ul>
+
+                    <div class="navbar-right nav">
+                        <p href="#" class="information"><br>
+                            <!--<p style="font-size: 20px;color: black">姓名：齐&nbsp;&nbsp;晋</p>-->
+                            <!--<p style="font-size: 20px;color: black">学号：2018444246 &nbsp;专业：计科2018</p>-->
+                            <p style="font-size: 20px;color: black">基于深度学习的图像风格迁移系统</p>
+                            <p id="roleName" style="font-size: 20px;color: green"></p><br>
+                            <a style="font-size: 20px;color: red;float: right" href="login"><p>退出登录</p></a>
+                        </p>
+                    </div>
+                </div>
+                <!-- script for menu -->
+                <script>
+                    $( "span.menu" ).click(function() {
+                        $( ".top-menu" ).slideToggle( "slow", function() {
+                            // Animation complete.
+                        });
+                    });
+                </script>
+
+            </div>
+        </div>
+    </nav>
+</header>
+<!--导航部分结束-->
+<!--轮播图部分-->
+<div class="container hidden-xs " >
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+        <!-- 轮播（Carousel）指标 -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+        </ol>
+        <!-- 轮播（Carousel）项目 -->
+        <div class="carousel-inner ">
+            <div class="item active">
+                <div class="pic">
+                    <img src="img/pic01.jpg"  alt="">
+                </div>
+            </div>
+            <div class="item">
+                <div class="pic">
+                    <img src="img/pic09.jpg"  alt="">
+                </div>
+            </div>
+            <div class="item">
+                <div class="pic">
+                    <img src="img/tow.jpg"  alt="">
+                </div>
+            </div>
+            <div class="item">
+                <div class="pic">
+                    <img src="img/pic08.jpg"  alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--轮播部分结束-->
+    <form id="uploadForm" method="post" enctype="multipart/form-data">
+        <div class="container">
+        <div class="page-header">
+            <h3>图像风格迁移 Image Style Migration ———————————————— 理论基础 Theoretical Basis
+            </h3>
+        </div>
+        <!-- 原始图片 -->
+        <div class="page-header pict">
+            <h3>原始图片</h3>
+            <div class="form-group">
+                <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload_1">
+                    <div class="fileinput-new thumbnail" style="width: 400px;height: auto;max-height: 450px">
+                        <img id="image" class="centered"  src="img/bg.jpg" height="256">
+                        <br>
+                        <!--缩放图片-->
+                        <label for="ai-image-size">Control image size</label>
+                        <input oninput="zoomImg()" type="range" min="256" max="370" value="256" class="custom-range centered" id="ai-image-size">
+                        <!--缩放图片结束-->
+
+                    </div>
+                    <div id="image2" class="fileinput-preview fileinput-exists thumbnail" style="max-width: 400px;max-height: 250px">
+                        <!--<img  class="centered"  src="img/noimage.jpg" height="256">-->
+                    </div>
+                    <div>
+                        <span class="btn btn-primary btn-file">
+                            <span class="fileinput-new">选择文件</span>
+                            <span class="fileinput-exists">换一张</span>
+                                <!-- 注意name -->
+                                <input type="file" name="image">
+                        </span>
+
+                         <select id="content-select"  class="fileinput-new select"  onchange="selectFn(this.options[this.options.selectedIndex].value)">
+                             <option value="noimage">请选择原始内容参考图片</option>
+                             <option value="pic6">school01</option>
+                             <option value="bg" selected="selected">school</option>
+                             <option value="chicago">chicago</option>
+                             <option value="stata">stata</option>
+                        </select>
+                        <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput">移除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 风格图片 -->
+        <div class="page-header pict">
+            <h3>风格图片</h3>
+            <div class="form-group">
+                <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload_2">
+                    <div class="fileinput-new thumbnail" style="width: 400px;height: auto;max-height: 450px">
+                        <img id="style" height="256" class="centered" src="img/wave.jpg">
+                        <br>
+                        <label for="ai-image-size1">Control image size</label>
+                        <input oninput="zoomImg1()" type="range" min="256" max="450" value="256" class="custom-range centered" id="ai-image-size1">
+                    </div>
+                    <div id="style2" class="fileinput-preview fileinput-exists thumbnail" style="max-width: 400px;max-height: 250px">
+                        <!--<img  height="256" class="centered" src="img/noimage.jpg">-->
+                    </div>
+                    <div>
+                        <span class="btn btn-primary btn-file">
+                            <span class="fileinput-new">选择文件</span>
+                            <span class="fileinput-exists">换一张</span>
+                            <!-- 注意name -->
+                            <input type="file"  name="style">
+                        </span>
+
+                        <select  id="c-content-select" class="fileinput-new select" onchange="selectFn1(this.options[this.options.selectedIndex].value)">
+
+                            <option value="noimage">请选择风格参考图片</option>
+                            <option value="towers">towers</option>
+                            <option value="starrynight">starry_night</option>
+                            <option value="wave" selected="selected">wave</option>
+                            <option value="seaport">seaport</option>
+                            <option value="land">Neither</option>
+                        </select>
+
+                        <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput">移除</a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header">
+
+            <img class="ui small" src="img/figure.png">
+            <div class="ui divider"></div>
+            <h3>图像风格迁移: 指将参考图像的风格应用于内容目标图像，同时保留内容目标图像的内容。如上图所示</h3><br>
+            <div class="ui divider"></div>
+            <h3>1 VGG网络模型</h3><br>
+            <h4 style="line-height: 150%">在实现风格迁移之前，需要先简单了解一下VGG网络:<br>
+                （由于VGG网络不断使用卷积提取特征的网络结构和准确的图像识别效率，在这里我们使用VGG网络来进行图像的风格迁移）。</h4>
+            <img class="ui small" src="img/vgg19.jpg" style="line-height: 150%">
+            <h4>如上图所示，从A-E的每一列都表示了VGG网络的结构原理，其分别为：VGG-11，VGG-13，VGG-16，VGG-19，如下图，一副图片经过VGG-19网络结构可以最后得到一个分类结构。</h4>
+            <img class="ui small" src="img/vgg19-2.jpg">
+            <div class="ui divider"></div>
+            <h3>2 风格迁移</h3>
+            <h4 style="line-height: 150%">对一副图像进行风格迁移，需要清楚的有两点：<br>
+                ①生成的图像需要具有原图片的内容特征<br>
+                ②生成的图像需要具有风格图片的纹理特征<br>
+
+                根据这两点可以确定，要想实现风格迁移，需要有两个loss值：<br>
+
+                一个是生成图片的内容特征与原图的内容特征的loss，另一个是生成图片的纹理特征与风格图片的纹理特征的loss。<br>
+
+                而对一张图片进行不同的特征（内容特征和纹理特征）提取，只需要使用不同的卷积结构进行训练即可以得到。我们需用到两个神经网络。<br>
+
+                再回到VGG网络上，VGG网络不断使用卷积层来提取特征，利用特征将物品进行分类，所以该网络中提取内容和纹理特征的参数都可以进行迁移使用。<br>
+                故需要将生成的图片经过VGG网络的特征提取，再分别针对内容和纹理进行特征的loss计算。<br>
+
+            </h4>
+            <img class="ui small" src="img/content.png">
+            <h4 style="line-height: 150%">
+                如图，假设初始化图像x（Input image）是一张随机图片，<br>
+                我们经过fw（image Transform Net）网络进行生成，生成图片y。<br>
+                此时y需要和风格图片ys进行特征的计算得到一个loss_style，与内容图片yc进行特征的计算得到一个loss_content，<br>
+                假设loss=loss_style+loss_content，便可以对fw的网络参数进行训练。<br>
+            </h4>
+
+            <h3>3 内容损失</h3>
+            <h4>内容损失一般选择靠近的某层激活的差平方或L2范数。</h4>
+            <img src="img/conent-loss.png" class="ui small">
+
+            <h3>4 风格损失</h3>
+            <h4 style="line-height: 150%">格拉姆矩阵（Gram Matrix），即某一层特征图的内积。这个内积可以理解为表示该层特征之间相互关系的映射。损失函数的定义主要考虑以下因素：
+                ①在目标内容图像和生成图像之间保持相似的较高层激活，从而能保留内容。卷积神经网络应该能够看到目标图像和生成图像包含相同的内容。
+                ②在较低层和较高层的激活中保持类似的相互关系，从而能保留风格。特征相互关系捕zu到的是纹理，生成图像和风格参考图像在不同的空间尺度上应该具有相同纹理。
+
+                <br>
+                Gram Matrices的计算过程:<br>
+                假设输入图像经过卷积后，得到的feature map为[ch, h, w]。我们经过flatten和矩阵转置操作，可以变形为[ ch, h*w]和[h*w, ch]的矩阵。再对两矩阵做内积得到[ch, ch]大小的矩阵，这就是我们所说的Gram Matrices，如下图所示：</h4>
+            <img src="img/style-loss.png" class="ui small">
+            <h4 style="line-height: 150%">
+                比如我们假设输入图像经过卷积后得到的[b, ch, h*w]的feature map，
+                其中我们用fm表示第m个通道的特征层，fn为第n通道特征层。
+                则Gram Matrices中元素fm∗fn代表的就是m通道和n通道特征flatten后按位相乘（内积）。<br>
+                关于Gram矩阵还有以下三点值得注意：<br>
+                1 Gram矩阵的计算采用了累加的形式，抛弃了空间信息。一张图片的像素随机打乱之后计算得到的Gram Matrix和原图的Gram Matrix一样。所以认为Gram Matrix所以认为Gram Matrix抛弃了元素之间的空间信息。<br>
+                2 Gram Matrix的结果与feature maps F 的尺寸无关，只与通道个数有关，无论H,W的大小如何，最后Gram Matrix的形状都是CxC<br>
+                3 对于一个C x H x W的feature maps，可以通过调整形状和矩阵乘法运算快速计算它的Gram Matrix。即先将F调整到 C x (H x W)的二维矩阵，然后再计算F 和F的转置。结果就为Gram Matrix<br>
+
+                Gram Matrix的特点：<br>
+                通过相乘运算，它将特征之间的区别进行扩大或者缩小，由此可一定程度反应向量本身及向量之间的一些特征或关系，它注重风格纹理，忽略空间信息
+            </h4>
+
+        </div>
+    </div>
+    </form>
+
+
+    <script src="js/bootstrap-fileinput.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/move-top.js"></script>
+
+    <script type="text/javascript" th:inline="javascript">
+
+        // 缩放图片
+        function zoomImg() {
+            var x = document.getElementById("ai-image-size")
+            var img = document.getElementById("image")
+            img.width = x.value
+            // img.height=x.value
+        }
+        // 缩放图片
+        function zoomImg1() {
+            var x = document.getElementById("ai-image-size1")
+            var img = document.getElementById("style")
+            img.width = x.value
+            // img.height=x.value
+        }
+        // 缩放图片
+        function zoomImg2() {
+            var x = document.getElementById("ai-image-size2")
+            var img = document.getElementById("ai-image")
+            // img.width = x.value
+            img.height=x.value
+        }
+
+        //切换图片
+        function selectFn(val){
+            var image = new Image();
+            image.src = "img/" + val + ".jpg";
+            image.onload = function(){
+                var base64 = getBase64Image(image);
+                console.log(base64);
+                var img1 = document.getElementById("image")
+                img1.src = "img/" + val + ".jpg"
+            }
+        }
+
+        //切换图片1
+        function selectFn1(val){
+
+            var image = new Image();
+            image.src = "img/" + val + ".jpg";
+            image.onload = function(){
+                var base64 = getBase64Image(image);
+                console.log(base64);
+                var img = document.getElementById("style")
+                img.src = "img/" + val + ".jpg"
+                // var img2 = document.getElementById("style2").getElementsByTagName('img')[0]
+                // img2.src = base64
+            }
+        }
+
+        function getBase64Image(img) {
+            var canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+            var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+            var dataURL = canvas.toDataURL("image/"+ext);
+            return dataURL;
+        }
+
+        //下载
+        function downloadIamge() {
+            var imgs = document.getElementById("styled").getElementsByTagName("img");
+            var a = document.createElement('a');
+            a.download = 'img' + new Date().getTime() || '下载图片名称';//这边是文件名，可以自定义
+            a.href = imgs[0].src;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+    </script>
+
+    <script type="text/javascript" th:inline="javascript">
+        function base64ToBlob(base64Data) {
+            var arr = base64Data.split(','),
+                fileType = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]),
+                l = bstr.length,
+                u8Arr = new Uint8Array(l);
+
+            while (l--) {
+                u8Arr[l] = bstr.charCodeAt(l);
+            }
+            return new Blob([u8Arr], {
+                type: fileType
+            });
+        };
+        // blob转file
+        function blobToFile(newBlob, fileName) {
+            newBlob.lastModifiedDate = new Date();
+            newBlob.name = fileName;
+            return newBlob;
+        };
+        function dataURLtoFile(base64Data, filename) {//将base64转换为文件
+            var byteString;
+            if(base64Data.split(',')[0].indexOf('base64') >= 0)
+                byteString = atob(base64Data.split(',')[1]);//base64 解码
+            else{
+                byteString = unescape(base64Data.split(',')[1]);
+            }
+            var mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0];//mime类型 -- image/png
+
+            var ia = new Uint8Array(byteString.length);//创建视图
+            for(var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            var blob = new Blob([ia], {
+                type: mimeString
+            });
+            return blob;
+        }
+        $(function () {
+            $('#uploadSubmit').click(function () {
+
+                var img2 = document.getElementById("style2").getElementsByTagName('img')[0] || document.getElementById("style")
+                var img = document.getElementById("image2").getElementsByTagName('img')[0] || document.getElementById("image")
+
+                var xhr = new XMLHttpRequest()
+                xhr.open('GET', img2.src)
+                xhr.responseType = 'blob'
+                xhr.onload = function() {
+                    console.log(xhr.response)
+                    var blob = xhr.response
+                    var files = new window.File([blob], 'abc.'+ blob.type.split('/')[1], { type: blob.type })
+                    console.log(files);
+                    files.result = img2.src;
+
+                    var data = new FormData();
+                    data.append('style',files)
+                    var xhr2 = new XMLHttpRequest()
+                    xhr2.open('GET', img.src)
+                    xhr2.responseType = 'blob'
+                    xhr2.onload = function() {
+                        console.log(xhr2.response)
+                        var blob = xhr2.response
+                        var files = new window.File([blob], 'abc2.'+ blob.type.split('/')[1], { type: blob.type })
+                        console.log(files);
+                        files.result = img.src;
+                        data.append('image',files)
+                        // var data = new FormData($('#uploadForm')[0]);
+                        console.log(123)
+                        $.ajax({
+                            url:[[@{~/getImage}]],
+                            type:'post',
+                                data:data,
+                                async:false,
+                                cache:false,
+                                contentType:false,
+                                processData:false,
+                                success:function(data) {
+                                document.getElementById('ai-image').src=data
+                            },
+                            error:function(data){
+                                alert(data)
+                            }
+                        })
+
+                    }
+                    xhr2.send()
+
+                }
+                xhr.send()
+            })
+        })
+    </script>
+
+    <!--获取用户名-->
+    <script type="text/javascript">
+        //当页面一加载时就向后台发送post请求
+        $(function(){
+            $.post("/user/getusername",function(obj){
+                var s = obj.replace(/\"/g, '');
+                $("#roleName").html("欢迎您: "+s+" !");
+            },"text")
+        });
+
+    </script>
+
+    <a href="#" id="toTop" style="display: block;">
+    <span id="toTopHover" style="opacity: 1;"> </span></a>
+</body>
+</html>
